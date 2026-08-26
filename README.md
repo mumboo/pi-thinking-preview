@@ -2,6 +2,8 @@
 
 See a short preview of collapsed thinking blocks without expanding them.
 
+![preview](assets/preview.gif)
+
 ## Install
 
 ```bash
