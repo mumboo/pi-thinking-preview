@@ -1,6 +1,6 @@
 {
   "name": "@mumboo/pi-thinking-preview",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Show a one-line preview for collapsed thinking blocks in pi.",
   "license": "MIT",
   "repository": {
@@ -25,7 +25,9 @@
     "LICENSE"
   ],
   "pi": {
-    "extensions": ["./src/index.ts"]
+    "extensions": [
+      "./src/index.ts"
+    ]
   },
   "peerDependencies": {
     "@earendil-works/pi-coding-agent": ">=0.84.0",
