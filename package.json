@@ -3,50 +3,24 @@
   "version": "0.1.2",
   "description": "Show a one-line preview for collapsed thinking blocks in pi.",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mumboo/pi-thinking-preview.git"
-  },
-  "homepage": "https://github.com/mumboo/pi-thinking-preview#readme",
-  "bugs": {
-    "url": "https://github.com/mumboo/pi-thinking-preview/issues"
-  },
   "type": "module",
-  "keywords": [
-    "pi-package",
-    "pi-extension",
-    "thinking",
-    "reasoning",
-    "terminal"
-  ],
-  "files": [
-    "src/index.ts",
-    "README.md",
-    "LICENSE"
-  ],
+  "keywords": ["pi-package"],
+  "files": ["src/index.ts"],
   "pi": {
     "extensions": [
       "./src/index.ts"
     ]
   },
   "peerDependencies": {
-    "@earendil-works/pi-coding-agent": ">=0.84.0",
-    "@earendil-works/pi-tui": ">=0.84.0"
+    "@earendil-works/pi-coding-agent": "*",
+    "@earendil-works/pi-tui": "*"
   },
   "devDependencies": {
     "@earendil-works/pi-coding-agent": "0.84.3",
     "@earendil-works/pi-tui": "0.84.3",
     "typescript": "5.9.3"
   },
-  "engines": {
-    "node": ">=22.19.0"
-  },
   "scripts": {
-    "check": "tsc --noEmit",
-    "pack:check": "npm pack --dry-run",
-    "prepublishOnly": "npm run check && npm run pack:check"
-  },
-  "publishConfig": {
-    "access": "public"
+    "check": "tsc --noEmit"
   }
 }
