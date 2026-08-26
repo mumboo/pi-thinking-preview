@@ -1,0 +1,25 @@
+# pi Thinking Preview
+
+See a short preview of collapsed thinking blocks without expanding them.
+
+## Install
+
+```bash
+pi install npm:@mumboo/pi-thinking-preview
+```
+
+Restart pi after installing.
+
+## Try without installing
+
+```bash
+pi -e npm:@mumboo/pi-thinking-preview
+```
+
+## Use
+
+Press <kbd>Ctrl</kbd>+<kbd>T</kbd> to expand or collapse thinking blocks.
+
+## License
+
+MIT
