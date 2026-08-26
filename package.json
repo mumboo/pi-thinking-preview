@@ -3,6 +3,14 @@
   "version": "0.1.0",
   "description": "Show a one-line preview for collapsed thinking blocks in pi.",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mumboo/pi-thinking-preview.git"
+  },
+  "homepage": "https://github.com/mumboo/pi-thinking-preview#readme",
+  "bugs": {
+    "url": "https://github.com/mumboo/pi-thinking-preview/issues"
+  },
   "type": "module",
   "keywords": [
     "pi-package",

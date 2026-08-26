@@ -8,6 +8,12 @@ See a short preview of collapsed thinking blocks without expanding them.
 pi install npm:@mumboo/pi-thinking-preview
 ```
 
+Or install directly from GitHub:
+
+```bash
+pi install git:github.com/mumboo/pi-thinking-preview
+```
+
 Restart pi after installing.
 
 ## Try without installing
