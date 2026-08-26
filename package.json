@@ -7,6 +7,10 @@
   "keywords": [
     "pi-package"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mumboo/pi-thinking-preview.git"
+  },
   "files": [
     "src/index.ts"
   ],
