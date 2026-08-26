@@ -1,6 +1,6 @@
 {
   "name": "@mumboo/pi-thinking-preview",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Show a one-line preview for collapsed thinking blocks in pi.",
   "license": "MIT",
   "repository": {
