@@ -2,7 +2,7 @@
 
 See a short preview of collapsed thinking blocks without expanding them.
 
-![preview](assets/preview.gif)
+![preview](https://raw.githubusercontent.com/mumboo/pi-thinking-preview/refs/heads/master/assets/preview.gif)
 
 ## Install
 
