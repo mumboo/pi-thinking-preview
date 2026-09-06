@@ -47,13 +47,18 @@ interface AssistantMessageComponentPrototype {
     updateContent: AssistantMessageComponentInstance["updateContent"];
 }
 
+function stripAnsiResets(text: string): string {
+    return text.replace(/\x1b\[0m/g, "");
+}
+
 class ThinkingPreviewLine implements Component {
-    constructor(private readonly text: string, private readonly paddingX: number) {}
+    constructor(private readonly text: string, private readonly paddingX: number, private readonly theme: ThemeLike) {}
 
     render(width: number): string[] {
         const contentWidth = Math.max(1, width - this.paddingX * 2);
         const margin = " ".repeat(this.paddingX);
-        return [margin + truncateToWidth(this.text, contentWidth, "…")];
+        const truncated = stripAnsiResets(truncateToWidth(this.text, contentWidth, "…"));
+        return [margin + this.theme.italic(this.theme.fg("thinkingText", truncated))];
     }
 
     invalidate(): void {}
@@ -147,9 +152,7 @@ async function installPatch(): Promise<void> {
                 if (this.hideThinkingBlock) {
                     for (const block of thinkingBlocks) {
                         const flattened = block.replace(/\s+/g, " ").trim();
-                        this.contentContainer.addChild(
-                            new ThinkingPreviewLine(theme.italic(theme.fg("thinkingText", flattened)), this.outputPad),
-                        );
+                        this.contentContainer.addChild(new ThinkingPreviewLine(flattened, this.outputPad, theme));
                     }
                 } else {
                     this.contentContainer.addChild(
