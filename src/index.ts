@@ -1,10 +1,11 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { Markdown, Spacer, Text, truncateToWidth, type Component } from "@earendil-works/pi-tui";
-import { createRequire } from "node:module";
-import { dirname, join } from "node:path";
-import { fileURLToPath, pathToFileURL } from "node:url";
+import { realpathSync } from "node:fs";
+import { join } from "node:path";
+import { pathToFileURL } from "node:url";
 
 const INTERNAL_ASSISTANT_MESSAGE = "dist/modes/interactive/components/assistant-message.js";
+const INTERNAL_BUNDLE_INDEX = "dist/bundle/index.js";
 const INTERNAL_THEME = "dist/modes/interactive/theme/theme.js";
 const INTERNAL_MARKDOWN_TRANSFORM = "dist/modes/interactive/components/markdown-transform.js";
 
@@ -64,17 +65,28 @@ class ThinkingPreviewLine implements Component {
     invalidate(): void {}
 }
 
-function resolvePackageEntry(packageName: string): string {
-    try {
-        return fileURLToPath(import.meta.resolve(packageName));
-    } catch {
-        return createRequire(import.meta.url).resolve(packageName);
-    }
+async function getRunningPackageRoot(): Promise<string> {
+    const { getPackageDir } = await import("@earendil-works/pi-coding-agent");
+    return getPackageDir();
 }
 
-function importInternalModule<T>(relativePath: string): Promise<T> {
-    const packageRoot = dirname(dirname(resolvePackageEntry("@earendil-works/pi-coding-agent")));
-    return import(pathToFileURL(join(packageRoot, relativePath)).href) as Promise<T>;
+async function importInternalModule<T>(relativePath: string): Promise<T> {
+    return import(pathToFileURL(join(await getRunningPackageRoot(), relativePath)).href) as Promise<T>;
+}
+
+async function importAppModule<T>(fallbackPath: string): Promise<T> {
+    const packageRoot = await getRunningPackageRoot();
+    const entry = process.argv[1];
+    const bundledRun = entry ? realpathSync(entry).includes("bundle") : false;
+    if (bundledRun) {
+        const bundleEntry = join(packageRoot, INTERNAL_BUNDLE_INDEX);
+        try {
+            return (await import(pathToFileURL(bundleEntry).href)) as T;
+        } catch {
+            return import(pathToFileURL(join(packageRoot, fallbackPath)).href) as Promise<T>;
+        }
+    }
+    return import(pathToFileURL(join(packageRoot, fallbackPath)).href) as Promise<T>;
 }
 
 let originalUpdateContent: AssistantMessageComponentInstance["updateContent"] | undefined;
@@ -83,7 +95,7 @@ let patchedUpdateContent: AssistantMessageComponentInstance["updateContent"] | u
 
 async function installPatch(): Promise<void> {
     const [{ AssistantMessageComponent }, { theme }, { createMarkdownTransform }] = await Promise.all([
-        importInternalModule<{ AssistantMessageComponent: unknown }>(INTERNAL_ASSISTANT_MESSAGE),
+        importAppModule<{ AssistantMessageComponent: unknown }>(INTERNAL_ASSISTANT_MESSAGE),
         importInternalModule<{ theme: ThemeLike }>(INTERNAL_THEME),
         importInternalModule<{ createMarkdownTransform: MarkdownTransformFactory }>(INTERNAL_MARKDOWN_TRANSFORM),
     ]);
